@@ -111,4 +111,13 @@ class AuthController extends Controller
 
         return redirect('login');
     }
+
+    public function forgotPassView(Request $request)
+    {
+        return view('forgotPassword');
+    }
+
+    public function forgotPassSend(Request $request)
+    {
+    }
 }

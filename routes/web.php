@@ -2,14 +2,8 @@
 
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BengkelController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\LayananController;
-use App\Http\Controllers\JadwalController;
-use App\Http\Controllers\ProfileUserController;
-use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\{AuthController, BengkelController, BookingController, LayananController, JadwalController, ProfileUserController, ServiceController, TransaksiController};
+
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +32,10 @@ Route::get('/userregister', [AuthController::class, "userregister"])->name('user
 Route::get('/ownerregister', [AuthController::class, "ownerregister"])->name('ownerregister');
 Route::post('/userregister', [AuthController::class, "douserregister"])->name('do.userregister');
 Route::post('/ownerregister', [AuthController::class, "doownerregister"])->name('do.ownerregister');
+
+//forgot password
+Route::get('/forgot-password', [AuthController::class, 'forgotPassView'])->name('forgotPassView');
+Route::post('/forgot-password-send', [AuthController::class, 'forgotPassSend'])->name('forgotPassSend');
 
 // USER
 Route::middleware(['auth:web'])->group(function () {
