@@ -34,12 +34,3 @@ php artisan migrate:rollback
 ```Bash
 php artisan db:seed
 ```
-
-# Local Update
-
-```json
-{
-    "nama": "mila",
-    "nim": 12345
-}
-```
