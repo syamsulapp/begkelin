@@ -119,5 +119,6 @@ class AuthController extends Controller
 
     public function forgotPassSend(Request $request)
     {
+        #logic send to link reset password
     }
 }
