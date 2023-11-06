@@ -34,5 +34,3 @@ php artisan migrate:rollback
 ```Bash
 php artisan db:seed
 ```
-
-php artisan serve
