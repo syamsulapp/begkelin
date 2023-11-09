@@ -37,6 +37,10 @@ Route::post('/ownerregister', [AuthController::class, "doownerregister"])->name(
 Route::get('/forgot-password', [AuthController::class, 'forgotPassView'])->name('forgotPassView');
 Route::post('/forgot-password-send', [AuthController::class, 'forgotPassSend'])->name('forgotPassSend');
 
+//reset password
+Route::get('/reset/{tokenURL}/password', [AuthController::class, 'resetPasswordView'])->name('resetTokenView');
+Route::post('/reset/password/send', [AuthController::class, 'resetPasswordSend'])->name('resetTokenSend');
+
 // USER
 Route::middleware(['auth:web'])->group(function () {
     Route::get('/profileuser', [ProfileUserController::class, 'showuser']);

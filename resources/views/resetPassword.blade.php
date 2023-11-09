@@ -6,11 +6,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link href="{{ asset('css/icon-bengkel.png') }}" rel="Shorcut Icon" type="image/png">
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <title>Bengkelin | Forgot Password Fails</title>
+    <title>Bengkelin | Reset Password</title>
 
     <style>
         .login-box {
@@ -35,22 +37,30 @@
         <div class="login-box p-5">
             <div class="title mb-3">
                 <img src="{{ asset('images/logo.png') }}">
-                <p class="text-secondary text-center">Please enter your email</p>
             </div>
-            <form method="POST" action="{{ route('forgotPassSend') }}">
+            <form method="post" action="{{ route('resetTokenSend') }}">
                 @csrf
                 <div class="mb-3 form">
-                    <label for="email" class="form-label">Masukan Email</label>
-                    <input type="text" name="email" id="email"
-                        class="form-control @error('email') is-invalid @enderror">
-                    @error('email')
-                        <div id="emailHelp" class="text-danger">{{ $message }}</div>
+                    <input type="text" name="email" id="email" class="form-control" value="{{ $user->email }}"
+                        hidden>
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="password" id="password"
+                        class="form-control @error('password') is-invalid @enderror">
+                    @error('password')
+                        <div id="passwordHandler" class="text-danger">{{ $message }}</div>
+                    @enderror
+                    <br>
+                    <label for="password_confirmation" class="form-label">Password Confirmation</label>
+                    <input type="password" name="password_confirmation" id="password_confirmation"
+                        class="form-control @error('password_confirmation') is-invalid @enderror">
+                    @error('password_confirmation')
+                        <div id="passwordConfirmationHandler" class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="mb-3 mt-5 ">
                     <button class="btn btn-primary w-100" type="sub
                     "
-                        style="border-radius: 20px;">Send</button>
+                        style="border-radius: 20px;">Reset Password</button>
                 </div>
             </form>
         </div>

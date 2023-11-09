@@ -22,6 +22,14 @@
             background-color: white;
             border-radius: 32px
         }
+
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: -40px;
+            width: 70%;
+        }
     </style>
 </head>
 
@@ -29,8 +37,13 @@
     <div class="vh-100 p-5 d-flex justify-content-center align-items-center">
         <div class="login-box p-5">
             <div class="title mb-3">
-                <h3 class="text-center">Welcome Back to <span class="text-primary">Bengkelin</span></h3>
-                <p class="text-secondary text-center">Please enter your data</p>
+                <img src="{{ asset('images/logo.png') }}">
+                <p class="text-secondary text-center">Masukan Email Dan Password</p>
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
             </div>
             <form method="POST" action="{{ route('login') }}">
                 @csrf

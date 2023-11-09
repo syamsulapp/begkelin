@@ -103,7 +103,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'Email atau password salah.',
         ])->onlyInput('email');
     }
 
@@ -133,7 +133,7 @@ class AuthController extends Controller
         ]);
 
         try {
-            #reset password akun berdasarkan akun pada roles(user, pemilik bengkel, admin) apa yang mau di reset
+            #forgot akun berdasarkan akun pada roles(user, pemilik bengkel, admin) apa yang mau di reset
             if ($user = User::whereemail($request->email)->first()) {
                 $mail = $user;
             } else if ($pemilikBengkel = PemilikBengkel::whereemail($request->email)->first()) {
@@ -152,20 +152,40 @@ class AuthController extends Controller
         }
     }
 
-    public function resetPasswordView()
+    public function resetPasswordView($tokenURL)
     {
-        return view('');
+        try {
+            $user = PasswordResets::wheretoken($tokenURL)->firstOrFail();
+            return view('resetPassword', ['user' => $user]);
+        } catch (\Exception $error) {
+            return view('tokenForgotExpire')->with('error', 'Token salah atau token sudah tidak berlaku');
+        }
     }
 
     public function resetPasswordSend(Request $request)
     {
         $request->validate([
             'password' => 'required|confirmed',
+            'password_confirmation' => 'required'
         ], [
             'required' => ':attribute wajib di isi',
             'confirmed' => 'password tidak sama'
         ]);
 
         #execute logic reset password
+        try {
+            #reset password berdasarkan kondisi pada email dari role akun(user, pemilik bengkel, admin) 
+            if ($users = User::whereemail($request->email)->first()) {
+                $users->update(['password' => Hash::make($request->password)]);
+            } else if ($pemilik_bengkel = PemilikBengkel::whereemail($request->email)->first()) {
+                $pemilik_bengkel->update(['password' => Hash::make($request->email)]);
+            } else if ($admin = Admin::whereemail($request->email)->first()) {
+                $admin->update(['password' => Hash::make($request->password)]);
+            }
+            PasswordResets::whereemail($request->email)->delete(); #delete token after change password
+            return redirect()->route('login')->with('success', 'Berhasil ubah password, selanjutnya silahkan login'); #give response berhasil ubah password
+        } catch (\Exception $error) {
+            return view('tokenForgotExpire')->with('error', $error);
+        }
     }
 }
