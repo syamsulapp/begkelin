@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PemilikBengkel;
+use Exception;
 use App\Models\User;
+use App\Models\Admin;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\ForgotPasswords;
+use App\Models\PasswordResets;
+use App\Models\PemilikBengkel;
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -119,6 +125,47 @@ class AuthController extends Controller
 
     public function forgotPassSend(Request $request)
     {
-        #logic send to link reset password
+        $request->validate([
+            'email' => 'required|email'
+        ], [
+            'required' => 'email wajib di masukan',
+            'email' => 'penulisan email salah',
+        ]);
+
+        try {
+            #reset password akun berdasarkan akun pada roles(user, pemilik bengkel, admin) apa yang mau di reset
+            if ($user = User::whereemail($request->email)->firstOrFail()) {
+                $mail = $user;
+            } else if ($pemilikBengkel = PemilikBengkel::whereemail($request->email)->firstOrFail()) {
+                $mail = $pemilikBengkel;
+            } else if ($admin = Admin::whereemail($request->email)->firstOrFail()) {
+                $mail = $admin;
+            }
+            #generate token untuk reset password
+            $url = PasswordResets::create(['email' => $mail->email, 'token' => Str::random(64)]);
+            #kirim token reset password ke email bersangkutan
+            Mail::to($mail->email)->send(new ForgotPasswords($mail, $this->urlForgot($url)));
+            return redirect()->route('forgotPassView')->with('success', 'Berhasil, Silahkan cek email anda untuk melakukan reset password');
+        } catch (Exception $error) {
+            #jika email tidak ditemukan maka redirect ke halaman berikut dan kasih flash data error
+            return redirect()->route('forgotPassView')->with('error', 'Email Salah Atau Email Belum Terdaftar Di Sistem');
+        }
+    }
+
+    public function resetPasswordView()
+    {
+        return view('');
+    }
+
+    public function resetPasswordSend(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|confirmed',
+        ], [
+            'required' => ':attribute wajib di isi',
+            'confirmed' => 'password tidak sama'
+        ]);
+
+        #execute logic reset password
     }
 }

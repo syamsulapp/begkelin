@@ -61,6 +61,11 @@
                         style="border-radius: 20px">Daftar Sebagai
                         Mitra</a>
                 </div>
+                <div class="mb-3 mt-4 ">
+                    <p class="mt-3 text-center">Lupa Password?</p>
+                    <a href="{{ route('forgotPassView') }}" class="btn btn-md btn-primary w-100 mb-2 mt-2"
+                        style="border-radius: 20px;">Forgot Password</a>
+                </div>
             </form>
         </div>
     </div>
