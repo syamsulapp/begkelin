@@ -34,16 +34,7 @@
     <div class="vh-100 p-5 d-flex justify-content-center align-items-center">
         <div class="login-box p-5">
             <center>
-                <div class="card" style="width: 18rem;">
-                    <img src="{{ asset('images/expire_icon.jpg') }}" class="card-img-top" alt="logo icon"
-                        width="100px">
-                    <div class="card-body">
-                        <p class="card-text">
-                            {{ $error }}
-                        </p>
-                        <a href="{{ route('login') }}" class="card-link">Login</a>
-                    </div>
-                </div>
+                <img src="{{ asset('images/tokenexpires.png') }}" class="card-img-top" alt="logo icon">
             </center>
         </div>
     </div>

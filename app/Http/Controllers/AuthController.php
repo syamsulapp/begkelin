@@ -158,7 +158,7 @@ class AuthController extends Controller
             $user = PasswordResets::wheretoken($tokenURL)->firstOrFail();
             return view('resetPassword', ['user' => $user]);
         } catch (\Exception $error) {
-            return view('tokenForgotExpire')->with('error', 'Token salah atau token sudah tidak berlaku');
+            return view('tokenForgotExpire');
         }
     }
 
