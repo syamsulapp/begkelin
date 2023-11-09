@@ -134,11 +134,11 @@ class AuthController extends Controller
 
         try {
             #reset password akun berdasarkan akun pada roles(user, pemilik bengkel, admin) apa yang mau di reset
-            if ($user = User::whereemail($request->email)->firstOrFail()) {
+            if ($user = User::whereemail($request->email)->first()) {
                 $mail = $user;
-            } else if ($pemilikBengkel = PemilikBengkel::whereemail($request->email)->firstOrFail()) {
+            } else if ($pemilikBengkel = PemilikBengkel::whereemail($request->email)->first()) {
                 $mail = $pemilikBengkel;
-            } else if ($admin = Admin::whereemail($request->email)->firstOrFail()) {
+            } else if ($admin = Admin::whereemail($request->email)->first()) {
                 $mail = $admin;
             }
             #generate token untuk reset password
