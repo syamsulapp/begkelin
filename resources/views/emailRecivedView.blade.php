@@ -726,9 +726,9 @@
                                       font-size: 15px;
                                       font-family: 'Poppins-Italic', Helvetica;
                                     ">Terimakasih
-                                                                    <br />Jl. Laute 2 No.17,
-                                                                    Mandonga, Kec. Mandonga, Kota Kendari,
-                                                                    Sulawesi Tenggara 93111, Indonesia
+                                                                    <br />Universitas Qomaruddin Gresik, Jl. Raya Bungah
+                                                                    No.1, Desa Bungah, kecamatan Bungah, Bungah, Kec.
+                                                                    Bungah, Kabupaten Gresik, Jawa Timur 61152
                                                                     <br />https://bengkelin.com/
                                                                 </span>
                                                             </p>
