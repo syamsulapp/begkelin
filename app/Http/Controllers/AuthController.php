@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PemilikBengkel;
+use Exception;
 use App\Models\User;
+use App\Models\Admin;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\ForgotPasswords;
+use App\Models\PasswordResets;
+use App\Models\PemilikBengkel;
+use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -97,7 +103,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'Email atau password salah.',
         ])->onlyInput('email');
     }
 
@@ -110,5 +116,76 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('login');
+    }
+
+    public function forgotPassView(Request $request)
+    {
+        return view('forgotPassword');
+    }
+
+    public function forgotPassSend(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ], [
+            'required' => 'email wajib di masukan',
+            'email' => 'penulisan email salah',
+        ]);
+
+        try {
+            #forgot akun berdasarkan akun pada roles(user, pemilik bengkel, admin) apa yang mau di reset
+            if ($user = User::whereemail($request->email)->first()) {
+                $mail = $user;
+            } else if ($pemilikBengkel = PemilikBengkel::whereemail($request->email)->first()) {
+                $mail = $pemilikBengkel;
+            } else if ($admin = Admin::whereemail($request->email)->first()) {
+                $mail = $admin;
+            }
+            #generate token untuk reset password
+            $url = PasswordResets::create(['email' => $mail->email, 'token' => Str::random(64)]);
+            #kirim token reset password ke email bersangkutan
+            Mail::to($mail->email)->send(new ForgotPasswords($mail, $this->urlForgot($url)));
+            return redirect()->route('forgotPassView')->with('success', 'Berhasil, Silahkan cek email anda untuk melakukan reset password');
+        } catch (Exception $error) {
+            #jika email tidak ditemukan maka redirect ke halaman berikut dan kasih flash data error
+            return redirect()->route('forgotPassView')->with('error', 'Email Salah Atau Email Belum Terdaftar Di Sistem');
+        }
+    }
+
+    public function resetPasswordView($tokenURL)
+    {
+        try {
+            $user = PasswordResets::wheretoken($tokenURL)->firstOrFail();
+            return view('resetPassword', ['user' => $user]);
+        } catch (\Exception $error) {
+            return view('tokenForgotExpire');
+        }
+    }
+
+    public function resetPasswordSend(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required'
+        ], [
+            'required' => ':attribute wajib di isi',
+            'confirmed' => 'password tidak sama'
+        ]);
+
+        #execute logic reset password
+        try {
+            #reset password berdasarkan kondisi pada email dari role akun(user, pemilik bengkel, admin) 
+            if ($users = User::whereemail($request->email)->first()) {
+                $users->update(['password' => Hash::make($request->password)]);
+            } else if ($pemilik_bengkel = PemilikBengkel::whereemail($request->email)->first()) {
+                $pemilik_bengkel->update(['password' => Hash::make($request->email)]);
+            } else if ($admin = Admin::whereemail($request->email)->first()) {
+                $admin->update(['password' => Hash::make($request->password)]);
+            }
+            PasswordResets::whereemail($request->email)->delete(); #delete token after change password
+            return redirect()->route('login')->with('success', 'Berhasil ubah password, selanjutnya silahkan login'); #give response berhasil ubah password
+        } catch (\Exception $error) {
+            return view('tokenForgotExpire')->with('error', $error);
+        }
     }
 }
