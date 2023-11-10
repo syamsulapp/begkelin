@@ -45,7 +45,8 @@ class AuthController extends Controller
             'required' => ':attribute wajib di isi',
             'unique' => 'Email sudah terdaftar',
             'confirmed' => 'Password tidak sama',
-            'integer' => 'Nomor handphone harus angka',
+            'numeric' => 'Nomor handphone harus angka',
+            'digits' => 'Harus 12 digit',
         ]);
 
         // 
@@ -69,7 +70,14 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'max:100', 'email', 'unique:' . PemilikBengkel::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone_number' => ['required', 'string'],
+            'password_confirmation' => 'required',
+            'phone_number' => ['required', 'numeric', 'digits:12'],
+        ], [
+            'required' => ':attribute wajib di isi',
+            'unique' => 'Email sudah terdaftar',
+            'confirmed' => 'Password tidak sama',
+            'numeric' => 'Nomor handphone harus angka',
+            'digits' => 'Harus 12 digit',
         ]);
 
         // 
@@ -83,7 +91,7 @@ class AuthController extends Controller
         // 
         Auth::login($owner);
 
-        return redirect('/login');
+        return redirect()->route('login')->with('success', 'Berhasil registrasi akun owner, silahkan login');
     }
 
     public function doLogin(Request $request)
