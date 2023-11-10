@@ -38,8 +38,14 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'max:100', 'email', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phone_number' => ['required', 'string'],
+            'password_confirmation' => 'required',
+            'phone_number' => ['required', 'numeric', 'digits:12'],
             'alamat' => ['required', 'string', 'max:100'],
+        ], [
+            'required' => ':attribute wajib di isi',
+            'unique' => 'Email sudah terdaftar',
+            'confirmed' => 'Password tidak sama',
+            'integer' => 'Nomor handphone harus angka',
         ]);
 
         // 
@@ -54,7 +60,7 @@ class AuthController extends Controller
         // 
         Auth::login($user);
 
-        return redirect('/login');
+        return redirect()->route('login')->with('success', 'Berhasil registrasi akun users, silahkan login');
     }
 
     public function doownerregister(Request $request)
