@@ -27,7 +27,7 @@
             display: block;
             margin-left: auto;
             margin-right: auto;
-            margin-top: -40px;
+            margin-top: -20px;
             width: 70%;
         }
     </style>
@@ -39,9 +39,23 @@
             <div class="title mb-3">
                 <img src="{{ asset('images/logo.png') }}">
                 <p class="text-secondary text-center">Masukan Email Dan Password</p>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
                     </div>
                 @endif
             </div>
@@ -49,19 +63,11 @@
                 @csrf
                 <div class="mb-3 form">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" name="email" id="email"
-                        class="form-control @error('email') is-invalid @enderror" required>
-                    @error('email')
-                        <div id="emailHelp" class="form-text">{{ $message }}</div>
-                    @enderror
+                    <input type="text" name="email" id="email" class="form-control">
                 </div>
                 <div class="mb-3 form">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" name="password" id="password"
-                        class="form-control @error('password') is-invalid @enderror" required>
-                    @error('password')
-                        <div id="passwordHelp" class="form-text">{{ $message }}</div>
-                    @enderror
+                    <input type="password" name="password" id="password" class="form-control">
                 </div>
                 <div class="mb-3 mt-5 ">
                     <button class="btn btn-primary w-100" type="sub
