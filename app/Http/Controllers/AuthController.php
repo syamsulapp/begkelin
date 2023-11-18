@@ -48,20 +48,25 @@ class AuthController extends Controller
             'numeric' => 'Nomor handphone harus angka',
             'digits' => 'Harus 12 digit',
         ]);
-
-        // 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'alamat' => $request->alamat,
-            'phone_number' => $request->phone_number,
-        ]);
-
-        // 
-        Auth::login($user);
-
-        return redirect()->route('login')->with('success', 'Berhasil registrasi akun users, silahkan login');
+        //pastikan email yang di register belum pernah terdaftar sama sekali sebagai user, owner ataupun admin
+        if (User::whereemail($request->email)->first()) {
+            return redirect()->route('login')->with('error', 'email ini sudah terdaftar sebagai user, harap gunakan email lain');
+        } else if (PemilikBengkel::whereemail($request->email)->first()) {
+            return redirect()->route('login')->with('error', 'email ini sudah terdaftar sebagai owner, harap gunakan email lain');
+        } else if (Admin::whereemail($request->email)->first()) {
+            return redirect()->route('login')->with('error', 'email ini sudah terdaftar sebagai admin, harap gunakan email lain');
+        } else {
+            // register user
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'alamat' => $request->alamat,
+                'phone_number' => $request->phone_number,
+            ]);
+            Auth::login($user);
+            return redirect()->route('login')->with('success', 'Berhasil registrasi akun users, silahkan login');
+        }
     }
 
     public function doownerregister(Request $request)
@@ -79,19 +84,24 @@ class AuthController extends Controller
             'numeric' => 'Nomor handphone harus angka',
             'digits' => 'Harus 12 digit',
         ]);
-
-        // 
-        $owner = PemilikBengkel::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone_number' => $request->phone_number,
-        ]);
-
-        // 
-        Auth::login($owner);
-
-        return redirect()->route('login')->with('success', 'Berhasil registrasi akun owner, silahkan login');
+        //pastikan email yang di register belum pernah terdaftar sama sekali sebagai user, owner ataupun admin
+        if (User::whereemail($request->email)->first()) {
+            return redirect()->route('login')->with('error', 'email ini sudah terdaftar sebagai user, harap gunakan email lain');
+        } else if (PemilikBengkel::whereemail($request->email)->first()) {
+            return redirect()->route('login')->with('error', 'email ini sudah terdaftar sebagai owner, harap gunakan email lain');
+        } else if (Admin::whereemail($request->email)->first()) {
+            return redirect()->route('login')->with('error', 'email ini sudah terdaftar sebagai admin, harap gunakan email lain');
+        } else {
+            // register owner
+            $owner = PemilikBengkel::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'phone_number' => $request->phone_number,
+            ]);
+            Auth::login($owner);
+            return redirect()->route('login')->with('success', 'Berhasil registrasi akun owner, silahkan login');
+        }
     }
 
     public function doLogin(Request $request)
