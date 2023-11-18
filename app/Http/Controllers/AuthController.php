@@ -109,6 +109,9 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
+        ], [
+            'required' => ':attribute jangan di kosongkan',
+            'email' => 'format penulisan email salah'
         ]);
 
         if (Auth::guard('web')->attempt($credentials)) {
