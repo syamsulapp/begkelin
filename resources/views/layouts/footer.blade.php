@@ -27,10 +27,10 @@
             </div>
             <div class="col col-lg-3 d-flex flex-column mb-lg-0 mb-4">
                 <h5 class="fw-bold text-white mb-3">Contact</h5>
-                <a href="https://www.instagram.com/msibgits_kel.06/" class="text-white-50 mt-2">
+                <a href="https://www.instagram.com/bengkelin.official" class="text-white-50 mt-2">
                     Our Instagram
                 </a>
-                <a href="https://github.com/orgs/msib4-gits-kelompok6/repositories" class="text-white-50 mt-2">
+                <a href="https://github.com/syamsulapp/begkelin" class="text-white-50 mt-2">
                     Our Github
                 </a>
                 <p class="text-white-50 mt-2">Indonesia</p>
@@ -38,7 +38,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <p class="text-white text-center copytext">&copy; Copyright 2023 by Rangkong, All Right Reserved.</p>
+                <p class="text-white text-center copytext">&copy; Copyright 2023 Bengkelin.Official, All Right Reserved.</p>
             </div>
         </div>
     </div>
