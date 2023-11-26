@@ -14,19 +14,20 @@ composer install
 
 # Migrate Run
 
-````Bash
+```Bash
 php artisan migrate (wajib)
 # migrate refresh ketika ada update/perubahan schema column table
 php artisan migrate:refresh (optional)
 # jika ingin rollback table nya jalan kan perintah di bawah ini
 php artisan migrate:rollback (optional)
 
+```
 
 # Seeder Run
 
 ```Bash
 php artisan db:seed
-````
+```
 
 # Start Server
 
