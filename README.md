@@ -12,25 +12,24 @@ aktifkan require module php yang dibutukan untuk menjalankan framework tersebut,
 composer install
 ```
 
-# Start Server
-
-```Bash
-php artisan serve
-```
-
 # Migrate Run
 
-```Bash
-php artisan migrate
+````Bash
+php artisan migrate (wajib)
 # migrate refresh ketika ada update/perubahan schema column table
-php artisan migrate:refresh
+php artisan migrate:refresh (optional)
 # jika ingin rollback table nya jalan kan perintah di bawah ini
-php artisan migrate:rollback
+php artisan migrate:rollback (optional)
 
-```
 
 # Seeder Run
 
 ```Bash
 php artisan db:seed
+````
+
+# Start Server
+
+```Bash
+php artisan serve
 ```
