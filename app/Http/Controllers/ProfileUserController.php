@@ -14,11 +14,12 @@ use PDF;
 
 class ProfileUserController extends Controller
 {
-    public function showuser(Request $request)
-    {
-        $datauser = User::get();
-        return view('user/profileuser', ['users' => $datauser]);
-    }
+    //this.method not use
+    // public function showuser(Request $request)
+    // {
+    //     $datauser = User::get();
+    //     return view('user/profileuser', ['users' => $datauser]);
+    // }
 
     public function showdetailuser($id)
     {
