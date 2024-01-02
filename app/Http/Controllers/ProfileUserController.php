@@ -39,17 +39,17 @@ class ProfileUserController extends Controller
 
     public function updatedetailuser(Request $request, $id)
     {
-        // mendapatkan data user
-        $dataUser['users'] = User::findOrFail($id);
-
         $validated = $request->validate([
-            'name' => 'string',
-            'email' => 'string',
-            'phone_number' => 'string',
+            'name' => 'required|string',
+            'email' => 'email',
+            'phone_number' => 'integer',
             'alamat' => 'string',
-            // 'image' => 'required|mimes:jpg,jpeg,png|max:5120'
+            'image' => 'mimes:jpg,jpeg,png|max:2048'
         ]);
 
+        //request store image has uploaded
+        $fileName = time() . '.' . $validated['image']->extension();
+        $validated['image']->storeAs('images', $fileName);
 
         // update data pada database berdasarkan id
         User::where('id', $id)->update([
@@ -57,7 +57,7 @@ class ProfileUserController extends Controller
             'email' => $validated['email'],
             'phone_number' => $validated['phone_number'],
             'alamat' => $validated['alamat'],
-            // 'image' => $newImage['image']
+            'photo' => $fileName,
         ]);
 
         return redirect()->route('showDetailProfileUser', Auth::user()->id)->with('success', 'Profile Berhasil Diubah!');
