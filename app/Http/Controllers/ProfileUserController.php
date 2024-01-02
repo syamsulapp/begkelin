@@ -47,19 +47,28 @@ class ProfileUserController extends Controller
             'image' => 'mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        //request store image has uploaded
-        $fileName = time() . '.' . $validated['image']->extension();
-        $destinationFile = 'images';
-        $validated['image']->move($destinationFile, $fileName);
-
         // update data pada database berdasarkan id
-        User::where('id', $id)->update([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'phone_number' => $validated['phone_number'],
-            'alamat' => $validated['alamat'],
-            'photo' => $fileName,
-        ]);
+        //jika foto tidak diupload maka tidak perlu upload photo
+        if (empty($validated['image'])) {
+            User::where('id', $id)->update([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone_number' => $validated['phone_number'],
+                'alamat' => $validated['alamat'],
+            ]);
+        } else {
+            //request store image has uploaded
+            $fileName = time() . '.' . $validated['image']->extension();
+            $destinationFile = 'images';
+            $validated['image']->move($destinationFile, $fileName);
+            User::where('id', $id)->update([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone_number' => $validated['phone_number'],
+                'alamat' => $validated['alamat'],
+                'photo' => $fileName,
+            ]);
+        }
 
         return redirect()->route('showDetailProfileUser', Auth::user()->id)->with('success', 'Profile Berhasil Diubah!');
     }
