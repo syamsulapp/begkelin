@@ -26,6 +26,10 @@
         </div>
         <div class="row px-5 gx-lg-5 d-flex justify-content-center align-items-center data-user">
             <div class="col-lg-8 ">
+                <div class="buttonBack">
+                    <a href="{{ route('showDetailProfileUser', Auth::user()->id) }}" class="btn btn-secondary">Back</a>
+                </div>
+                <br>
                 <form action="{{ route('updateProfileUser', $users->id) }}" method="POST" enctype="multipart/form-data">
                     @method('put')
                     @csrf
@@ -55,7 +59,7 @@
                             id="phone_number" name="phone_number" value="{{ $users->phone_number }}">
                         @error('phone_number')
                             <div class="invalid-feedback">
-                                {{ $mesage }}
+                                {{ $message }}
                             </div>
                         @enderror
                     </div>
@@ -83,9 +87,7 @@
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
-                <div class="buttonBack">
-                    <a href="{{ route('showDetailProfileUser', Auth::user()->id) }}" class="btn btn-secondary">Back</a>
-                </div>
+
             </div>
         </div>
     </div>
