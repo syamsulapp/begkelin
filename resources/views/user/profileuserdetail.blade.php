@@ -12,6 +12,7 @@
                     </div>
                 @endif
                 <div class="col-lg-3">
+                    <!--check apakah usersnya sudah punya photo profile atau belum -->
                     @empty($users->photo)
                         <img id="preview" src="{{ asset('css/bengkels.jpg') }}" alt="your profile" class="img-fluid">
                     @else

@@ -16,6 +16,7 @@
         <div class="container">
             <div class="row px-5 gx-lg-5 d-flex justify-content-center align-items-center nama-user">
                 <div class="col-lg-3">
+                    <!--check apakah usersnya sudah punya photo profile atau belum -->
                     @isset($users->photo)
                         <img id="preview" src="{{ asset('images/' . $users->photo) }}" alt="your profile" class="img-fluid">
                     @else
