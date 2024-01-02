@@ -49,7 +49,8 @@ class ProfileUserController extends Controller
 
         //request store image has uploaded
         $fileName = time() . '.' . $validated['image']->extension();
-        $validated['image']->storeAs('images', $fileName);
+        $destinationFile = 'images';
+        $validated['image']->move($destinationFile, $fileName);
 
         // update data pada database berdasarkan id
         User::where('id', $id)->update([

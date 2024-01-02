@@ -12,7 +12,7 @@
                     </div>
                 @endif
                 <div class="col-lg-3">
-                    <img src="{{ asset('css/bengkels.jpg') }}" alt="" class="img-fluid">
+                    <img src="{{ asset('images/' . $users->photo) }}" alt="" class="img-fluid">
                 </div>
                 <div class="col-lg-4 my-3">
                     <h5>Welcome,</h5>

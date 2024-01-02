@@ -16,7 +16,7 @@
         <div class="container">
             <div class="row px-5 gx-lg-5 d-flex justify-content-center align-items-center nama-user">
                 <div class="col-lg-3">
-                    <img id="preview" src="{{ asset('css/bengkels.jpg') }}" alt="your profile" class="img-fluid">
+                    <img id="preview" src="{{ asset('images/' . $users->photo) }}" alt="your profile" class="img-fluid">
                 </div>
                 <div class="col-lg-4 my-3">
                     <h5>Welcome,</h5>
