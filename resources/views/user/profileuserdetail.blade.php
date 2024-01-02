@@ -12,7 +12,11 @@
                     </div>
                 @endif
                 <div class="col-lg-3">
-                    <img src="{{ asset('images/' . $users->photo) }}" alt="" class="img-fluid">
+                    @empty($users->photo)
+                        <img id="preview" src="{{ asset('css/bengkels.jpg') }}" alt="your profile" class="img-fluid">
+                    @else
+                        <img src="{{ asset('images/' . $users->photo) }}" alt="" class="img-fluid">
+                    @endempty
                 </div>
                 <div class="col-lg-4 my-3">
                     <h5>Welcome,</h5>
