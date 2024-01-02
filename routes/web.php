@@ -44,7 +44,7 @@ Route::post('/reset/password/send', [AuthController::class, 'resetPasswordSend']
 // USER
 Route::middleware(['auth:web'])->group(function () {
     Route::get('/profileuser', [ProfileUserController::class, 'showuser']);
-    Route::get('/profileuser/{id}', [ProfileUserController::class, 'showdetailuser']);
+    Route::get('/profileuser/{id}', [ProfileUserController::class, 'showdetailuser'])->name('showDetailProfileUser');
     Route::get('/profileuser/{id}/edit', [ProfileUserController::class, 'edit']);
     Route::post('/profileuser/{id}', [ProfileUserController::class, 'storedetailuser']);
     Route::put('/profileuser/{id}', [ProfileUserController::class, 'updatedetailuser']);
