@@ -14,11 +14,12 @@ use PDF;
 
 class ProfileUserController extends Controller
 {
-    public function showuser(Request $request)
-    {
-        $datauser = User::get();
-        return view('user/profileuser', ['users' => $datauser]);
-    }
+    //this.method not use
+    // public function showuser(Request $request)
+    // {
+    //     $datauser = User::get();
+    //     return view('user/profileuser', ['users' => $datauser]);
+    // }
 
     public function showdetailuser($id)
     {
@@ -38,28 +39,38 @@ class ProfileUserController extends Controller
 
     public function updatedetailuser(Request $request, $id)
     {
-        // mendapatkan data user
-        $dataUser['users'] = User::findOrFail($id);
-
         $validated = $request->validate([
-            'name' => 'string',
-            'email' => 'string',
-            'phone_number' => 'string',
+            'name' => 'required|string',
+            'email' => 'email',
+            'phone_number' => 'integer',
             'alamat' => 'string',
-            // 'image' => 'required|mimes:jpg,jpeg,png|max:5120'
+            'image' => 'mimes:jpg,jpeg,png|max:2048'
         ]);
-
 
         // update data pada database berdasarkan id
-        User::where('id', $id)->update([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'phone_number' => $validated['phone_number'],
-            'alamat' => $validated['alamat'],
-            // 'image' => $newImage['image']
-        ]);
+        //jika foto tidak diupload maka tidak perlu upload photo
+        if (empty($validated['image'])) {
+            User::where('id', $id)->update([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone_number' => $validated['phone_number'],
+                'alamat' => $validated['alamat'],
+            ]);
+        } else {
+            //request store image has uploaded
+            $fileName = time() . '.' . $validated['image']->extension();
+            $destinationFile = 'images';
+            $validated['image']->move($destinationFile, $fileName);
+            User::where('id', $id)->update([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone_number' => $validated['phone_number'],
+                'alamat' => $validated['alamat'],
+                'photo' => $fileName,
+            ]);
+        }
 
-        return redirect('/profileuser')->with('success', 'Profile Berhasil Diubah!');
+        return redirect()->route('showDetailProfileUser', Auth::user()->id)->with('success', 'Profile Berhasil Diubah!');
     }
 
     public function showkendaraan()

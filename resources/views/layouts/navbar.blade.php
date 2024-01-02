@@ -42,7 +42,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" href="{{ '/profileuser' }}">Profile User</a>
+                                <a class="dropdown-item" href="{{ route('showDetailProfileUser', Auth::user()->id) }}">Profile User</a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">

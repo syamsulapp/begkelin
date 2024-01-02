@@ -6,8 +6,18 @@
     <div class="profileuser">
         <div class="container">
             <div class="row px-5 gx-lg-5 d-flex justify-content-center align-items-center nama-user">
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <div class="col-lg-3">
-                    <img src="{{ asset('css/bengkels.jpg') }}" alt="" class="img-fluid">
+                    <!--check apakah usersnya sudah punya photo profile atau belum -->
+                    @empty($users->photo)
+                        <img id="preview" src="{{ asset('css/bengkels.jpg') }}" alt="your profile" class="img-fluid">
+                    @else
+                        <img src="{{ asset('images/' . $users->photo) }}" alt="" class="img-fluid">
+                    @endempty
                 </div>
                 <div class="col-lg-4 my-3">
                     <h5>Welcome,</h5>
@@ -39,7 +49,7 @@
                             value="{{ $users->alamat }}" disabled>
                     </div>
                     <div class="action-user d-flex justify-content-end align-items-center">
-                        <a href="/profileuser/{{ $users->id }}/edit"
+                        <a href="{{ route('showEditProfileUser', $users->id) }}"
                             class="btn btn-lg btn-warning text-white fw-bold mx-3">Ubah</a>
                     </div>
                 </form>

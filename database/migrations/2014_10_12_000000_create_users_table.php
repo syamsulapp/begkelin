@@ -21,6 +21,7 @@ return new class extends Migration
             $table->bigInteger('phone_number');
             $table->longText('alamat');
             $table->string('password');
+            $table->string('photo')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
