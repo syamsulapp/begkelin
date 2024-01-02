@@ -60,7 +60,7 @@ class ProfileUserController extends Controller
             // 'image' => $newImage['image']
         ]);
 
-        return redirect('/profileuser')->with('success', 'Profile Berhasil Diubah!');
+        return redirect()->route('showDetailProfileUser', Auth::user()->id)->with('success', 'Profile Berhasil Diubah!');
     }
 
     public function showkendaraan()

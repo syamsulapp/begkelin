@@ -45,9 +45,9 @@ Route::post('/reset/password/send', [AuthController::class, 'resetPasswordSend']
 Route::middleware(['auth:web'])->group(function () {
     // Route::get('/profileuser', [ProfileUserController::class, 'showuser']); // this.route not use
     Route::get('/profileuser/{id}', [ProfileUserController::class, 'showdetailuser'])->name('showDetailProfileUser');
-    Route::get('/profileuser/{id}/edit', [ProfileUserController::class, 'edit']);
+    Route::get('/profileuser/{id}/edit', [ProfileUserController::class, 'edit'])->name('showEditProfileUser');
     Route::post('/profileuser/{id}', [ProfileUserController::class, 'storedetailuser']);
-    Route::put('/profileuser/{id}', [ProfileUserController::class, 'updatedetailuser']);
+    Route::put('/profileuser/{id}', [ProfileUserController::class, 'updatedetailuser'])->name('updateProfileUser');
     Route::get('/profilekendaraan', [ProfileUserController::class, 'showkendaraan']);
     Route::get('/profiletransaksi', [ProfileUserController::class, 'showtransaksi']);
     Route::get('/profilekendaraan/add', [ProfileUserController::class, 'createkendaraan']);

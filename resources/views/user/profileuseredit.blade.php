@@ -2,6 +2,15 @@
 
 @section('title', 'Edit User')
 
+@push('css')
+    <style>
+        .buttonBack {
+            top: 150%;
+            left: 55%;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="profileuser">
         <div class="container">
@@ -17,7 +26,7 @@
         </div>
         <div class="row px-5 gx-lg-5 d-flex justify-content-center align-items-center data-user">
             <div class="col-lg-8 ">
-                <form action="/profileuser/{{ $users->id }}" method="POST">
+                <form action="{{ route('updateProfileUser', $users->id) }}" method="POST">
                     @method('put')
                     @csrf
                     <div class="form">
@@ -61,10 +70,16 @@
                         @enderror
                     </div>
                     <div class="action-user d-flex justify-content-end align-items-center">
-                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
+                <div class="buttonBack">
+                    <a href="{{ route('showDetailProfileUser', Auth::user()->id) }}" class="btn btn-secondary">Back</a>
+                </div>
             </div>
         </div>
     </div>
 @endsection
+
+@push('previewImg')
+@endpush
